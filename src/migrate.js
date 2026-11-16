@@ -1,8 +1,4 @@
-if (process.env.NODE_ENV === 'test') {
-  require('dotenv').config({ path: '.env.test' });
-} else {
-  require('dotenv').config();
-}
+require('./env');
 const fs = require('fs');
 const path = require('path');
 const { pool, query } = require('./db');
