@@ -1,9 +1,11 @@
-require('dotenv').config();
+require('./env');
 const express = require('express');
 const { checkConnection } = require('./db');
+const accountsRouter = require('./routes/accounts');
 
 const app = express();
 app.use(express.json());
+app.use(accountsRouter);
 
 app.get('/health', async (req, res) => {
   const dbConnected = await checkConnection();

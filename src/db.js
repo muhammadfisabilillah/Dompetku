@@ -1,8 +1,4 @@
-if (process.env.NODE_ENV === 'test') {
-  require('dotenv').config({ path: '.env.test' });
-} else {
-  require('dotenv').config();
-}
+require('./env');
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -18,7 +14,6 @@ const pool = new Pool({
 
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
-  process.exit(-1);
 });
 
 async function query(text, params) {
