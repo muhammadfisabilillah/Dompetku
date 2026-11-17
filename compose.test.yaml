@@ -1,0 +1,37 @@
+# Dipakai di stage Test pipeline (dan lokal) untuk menjalankan npm test
+# dengan database PostgreSQL sementara. Tidak ada port yang dibuka ke host
+# dan semua data hilang saat `down -v`.
+#
+# Jalankan:
+#   docker compose -f compose.test.yaml up --build --abort-on-container-exit --exit-code-from test
+#   docker compose -f compose.test.yaml down -v
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: dompetku
+      POSTGRES_PASSWORD: ${TEST_DB_PASSWORD:-ci_only_password}
+      POSTGRES_DB: dompetku_test
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dompetku -d dompetku_test"]
+      interval: 3s
+      timeout: 5s
+      retries: 15
+
+  test:
+    build:
+      context: .
+      target: test
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: test
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: dompetku
+      DB_PASSWORD: ${TEST_DB_PASSWORD:-ci_only_password}
+      DB_NAME: dompetku_test

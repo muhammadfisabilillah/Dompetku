@@ -1,0 +1,21 @@
+node_modules
+npm-debug.log*
+coverage
+.git
+.gitignore
+
+# rahasia: jangan pernah masuk image
+.env
+.env.*
+!.env.example
+
+# file lokal / dokumentasi
+AGENTS.md
+opencode.json
+.opencode
+.kilocode
+README.md
+CONTRIBUTING.md
+Jenkinsfile
+Dockerfile
+compose*.yaml
