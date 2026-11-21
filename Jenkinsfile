@@ -42,7 +42,10 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'docker compose up -d --build'
+                sh '''
+                    docker compose pull
+                    docker compose up -d
+                '''
             }
         }
     }
@@ -50,10 +53,6 @@ pipeline {
     post {
         always {
             sh 'docker compose -f compose.test.yaml down -v || true'
-            sh 'rm -f .env || true'
-        }
-    }
-}
             sh 'rm -f .env || true'
         }
     }
