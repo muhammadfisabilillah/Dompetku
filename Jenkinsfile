@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_USER = 'kemasibnusadid'
         IMAGE_NAME = "${DOCKERHUB_USER}/dompetku"
+        COMPOSE_PROJECT_NAME = 'dompetku-pipeline'
     }
 
     stages {
@@ -23,7 +24,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh 'docker compose -f compose.test.yaml up --build --abort-on-container-exit'
+                sh 'docker compose -p dompetku-test -f compose.test.yaml up --build --abort-on-container-exit'
             }
         }
 
@@ -43,8 +44,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh '''
-                    docker compose pull
-                    docker compose up -d
+                    docker compose -p "$COMPOSE_PROJECT_NAME" -f compose.yaml pull
+                    docker compose -p "$COMPOSE_PROJECT_NAME" -f compose.yaml up -d
                 '''
             }
         }
@@ -52,7 +53,7 @@ pipeline {
 
     post {
         always {
-            sh 'docker compose -f compose.test.yaml down -v || true'
+            sh 'docker compose -p dompetku-test -f compose.test.yaml down -v || true'
             sh 'rm -f .env || true'
         }
     }
