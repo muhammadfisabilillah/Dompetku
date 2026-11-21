@@ -32,7 +32,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
                     sh '''
                         echo "$DH_PASS" | docker login -u "$DH_USER" --password-stdin
-                        docker build -t "$IMAGE_NAME:$BUILD_NUMBER" -t "$IMAGE_NAME:latest" .
+                        docker build --provenance=false -t "$IMAGE_NAME:$BUILD_NUMBER" -t "$IMAGE_NAME:latest" .
                         docker push "$IMAGE_NAME:$BUILD_NUMBER"
                         docker push "$IMAGE_NAME:latest"
                     '''
@@ -50,6 +50,10 @@ pipeline {
     post {
         always {
             sh 'docker compose -f compose.test.yaml down -v || true'
+            sh 'rm -f .env || true'
+        }
+    }
+}
             sh 'rm -f .env || true'
         }
     }
