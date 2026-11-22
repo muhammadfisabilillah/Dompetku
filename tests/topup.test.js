@@ -24,7 +24,7 @@ describe('Topup', () => {
   test('Amount 500 → 422', async () => {
     const acc = await register('Budi', 'budi@test.com');
     const res = await request(app).post(`/accounts/${acc.id}/topup`).set('X-API-Key', acc.api_key).send({ amount: 500 });
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(422);
   });
 
   test('Amount desimal atau string → 422', async () => {
