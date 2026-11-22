@@ -188,7 +188,7 @@ router.get('/transactions', async (req, res) => {
   const apiKey = apiKeyFromReq(req);
   const account = await query('SELECT id, name FROM accounts WHERE api_key = $1', [apiKey]);
   if (account.rows.length === 0) {
-    return res.render('transactions', { api_key, account: null, transactions: [], error: 'API key tidak valid' });
+    return res.render('transactions', { api_key: apiKey, account: null, transactions: [], error: 'API key tidak valid' });
   }
   const accId = account.rows[0].id;
   const result = await query(
