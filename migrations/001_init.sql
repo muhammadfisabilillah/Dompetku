@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS accounts (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS transactions (
+CREATE TABLE IF NOT EXISTS transfers (
   id SERIAL PRIMARY KEY,
   type VARCHAR(20) NOT NULL CHECK (type IN ('TOPUP', 'TRANSFER')),
   from_account_id INTEGER REFERENCES accounts(id),
@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 CREATE TABLE IF NOT EXISTS ledger (
   id SERIAL PRIMARY KEY,
   account_id INTEGER NOT NULL REFERENCES accounts(id),
-  transaction_id INTEGER NOT NULL REFERENCES transactions(id),
+  transaction_id INTEGER NOT NULL REFERENCES transfers(id),
   amount BIGINT NOT NULL CHECK (amount > 0),
   balance_before BIGINT NOT NULL CHECK (balance_before >= 0),
   balance_after BIGINT NOT NULL CHECK (balance_after >= 0),
@@ -29,4 +29,4 @@ CREATE TABLE IF NOT EXISTS ledger (
 );
 
 CREATE INDEX IF NOT EXISTS idx_ledger_account_created ON ledger(account_id, created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_transactions_idempotency ON transactions(idempotency_key);
+CREATE INDEX IF NOT EXISTS idx_transfers_idempotency ON transfers(idempotency_key);

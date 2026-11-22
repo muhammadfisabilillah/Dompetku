@@ -15,4 +15,8 @@ app.get('/health', async (req, res) => {
   return res.status(503).json({ status: 'error', database: 'down' });
 });
 
+app.use((req, res) => {
+  res.status(404).json({ error: 'route tidak ditemukan' });
+});
+
 module.exports = app;
