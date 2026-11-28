@@ -4,7 +4,7 @@ const { query } = require('../src/db');
 
 describe('Topup', () => {
   afterEach(async () => {
-    await query('TRUNCATE TABLE ledger, transactions, accounts RESTART IDENTITY CASCADE');
+    await query('TRUNCATE TABLE ledger, transfers, accounts RESTART IDENTITY CASCADE');
   });
 
   async function register(name, email) {

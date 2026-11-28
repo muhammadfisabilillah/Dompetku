@@ -9,7 +9,7 @@ beforeAll(async () => {
 });
 
 afterEach(async () => {
-  await query('TRUNCATE TABLE ledger, transactions, accounts RESTART IDENTITY CASCADE');
+  await query('TRUNCATE TABLE ledger, transfers, accounts RESTART IDENTITY CASCADE');
 });
 
 afterAll(async () => {

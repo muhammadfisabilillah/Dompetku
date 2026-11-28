@@ -4,7 +4,7 @@ const { query } = require('../src/db');
 
 describe('Auth & Accounts', () => {
   afterEach(async () => {
-    await query('TRUNCATE TABLE ledger, transactions, accounts RESTART IDENTITY CASCADE');
+    await query('TRUNCATE TABLE ledger, transfers, accounts RESTART IDENTITY CASCADE');
   });
 
   test('Register sukses (201, cek ada api_key)', async () => {

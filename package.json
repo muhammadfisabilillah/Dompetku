@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit",
+    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --detectOpenHandles",
     "migrate": "node src/migrate.js",
     "seed": "node src/seed.js"
   },
@@ -14,8 +14,12 @@
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=22"
+  },
   "dependencies": {
     "dotenv": "^18.0.10",
+    "ejs": "^3.1.10",
     "express": "^5.3.0",
     "pg": "^8.23.1"
   },
