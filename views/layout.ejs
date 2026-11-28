@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'DompetKu' %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="container">
+        <a href="/" class="brand">
+          <div class="brand-icon">D</div>
+          <div>
+            <span>DompetKu</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="/" class="<%= active === 'home' ? 'active' : '' %>">Beranda</a>
+          <a href="/register<%= api_key ? '?api_key=' + api_key : '' %>" class="<%= active === 'register' ? 'active' : '' %>">Daftar</a>
+          <a href="/balance<%= api_key ? '?api_key=' + api_key : '' %>" class="<%= active === 'balance' ? 'active' : '' %>">Cek Saldo</a>
+          <a href="/topup<%= api_key ? '?api_key=' + api_key : '' %>" class="<%= active === 'topup' ? 'active' : '' %>">Top Up</a>
+          <a href="/transfer<%= api_key ? '?api_key=' + api_key : '' %>" class="<%= active === 'transfer' ? 'active' : '' %>">Transfer</a>
+          <a href="/transactions<%= api_key ? '?api_key=' + api_key : '' %>" class="<%= active === 'transactions' ? 'active' : '' %>">Riwayat</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <%- body %>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <div class="container">
+        <span>DompetKu &mdash; E-Wallet Kantin Kampus</span>
+        <span>Tubes 1 Komputasi Awan</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
