@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USER       = 'kemasibnusadid'
+        DOCKERHUB_USER       = 'muhammadfisabilillah'
         IMAGE_NAME           = "${DOCKERHUB_USER}/dompetku"
         TAG                  = "${env.BUILD_NUMBER}"
         COMPOSE_PROJECT_NAME = 'dompetku-pipeline'
