@@ -105,14 +105,18 @@ pipeline {
             steps {
                 sh '''
                     set -e
-                    for i in $(seq 1 30); do
-                        if curl -fsS http://localhost:8000/health; then
-                            echo ""
-                            echo "Smoke test berhasil: /health mengembalikan 200"
-                            exit 0
-                        fi
-                        echo "Menunggu aplikasi sehat ($i/30)..."
-                        sleep 2
+                    # Jenkins bisa jalan di host (localhost) atau di dalam container
+                    # (host.docker.internal). Coba keduanya.
+                    for host in localhost host.docker.internal; do
+                        for i in $(seq 1 15); do
+                            if curl -fsS "http://$host:8000/health"; then
+                                echo ""
+                                echo "Smoke test berhasil via $host: /health mengembalikan 200"
+                                exit 0
+                            fi
+                            echo "Menunggu aplikasi sehat via $host ($i/15)..."
+                            sleep 2
+                        done
                     done
                     echo "Smoke test GAGAL: /health tidak mengembalikan 200"
                     exit 1
